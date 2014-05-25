@@ -62,8 +62,6 @@ public class Example extends AsyncTask {
         this.controller.updateProgress(progress);
     }
     }
-}
-}
 
 //To call this class you just need to instatiate that doing 
 
