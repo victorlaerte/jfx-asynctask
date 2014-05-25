@@ -24,9 +24,11 @@ publishProgress - is used to call your progressCallback and update your UI compo
 setDaemon - is used to set your thread daemon
 
 interrupt - is called to interrupt your thread process
+
 =========
 
 Example of use:
+=========
 
     public class Example extends AsyncTask {
         private UIController controller;
