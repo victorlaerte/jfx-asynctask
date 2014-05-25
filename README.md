@@ -60,7 +60,8 @@ public class Example extends AsyncTask {
         
         double progress = (double)params[0]
         this.controller.updateProgress(progress);
-    }}
+    }
+}
 }
 
 //To call this class you just need to instatiate that doing 
