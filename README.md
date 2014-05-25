@@ -11,6 +11,22 @@ Optionally you have the method setDaemon to set your threads daemon, which means
 
 =========
 
+onPreExecute - is used to run some rotine before the background task has started
+
+doInBackground - is used to perform background tasks
+
+onPostExecute - is used to run some finally rotine after background task has done
+
+progressCallback - it will be called every time you call publishProgress to update your UI Thread as you want
+
+publishProgress - is used to call your progressCallback and update your UI component
+
+setDaemon - is used to set your thread daemon
+
+interrupt - is called to interrupt your thread process
+
+=========
+
 Example of use:
 
     public class Example extends AsyncTask {
@@ -65,5 +81,5 @@ Example of use:
 
     //To call this class you just need to instatiate that doing 
     
-    Example testing = Example(myController);
+    Example testing = new Example(myController);
     testing.execute();
