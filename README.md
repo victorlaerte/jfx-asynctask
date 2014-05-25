@@ -13,57 +13,57 @@ Optionally you have the method setDaemon to set your threads daemon, which means
 
 Example of use:
 
-public class Example extends AsyncTask {
-    private UIController controller;
-
-    public Example(UIController controller) {
-        this.controller = controller;
-    }
-
-    @Override
-    void onPreExecute() {
+    public class Example extends AsyncTask {
+        private UIController controller;
     
-        //This method runs on UI Thread before background task has started
-        this.updateProgressLabel("Starting Download")
-    }
-
-    @Override
-    void doInBackground() {
-
-    //This method runs on background thread
+        public Example(UIController controller) {
+            this.controller = controller;
+        }
     
-    boolean downloading = true;
-    
-        while (downloading){
+        @Override
+        void onPreExecute() {
         
-            /*
-            * Your download code
-            */
+            //This method runs on UI Thread before background task has started
+            this.updateProgressLabel("Starting Download")
+        }
+
+        @Override
+        void doInBackground() {
+    
+        //This method runs on background thread
+        
+        boolean downloading = true;
+        
+            while (downloading){
             
-            double progress = 65.5 //Your progress calculation 
-            publishProgress(progress);
+                /*
+                * Your download code
+                */
+                
+                double progress = 65.5 //Your progress calculation 
+                publishProgress(progress);
+            }
+        }
+
+        @Override
+        void onPostExecute() {
+    
+            //This method runs on UI Thread after background task has done
+            this.controller.updateProgressLabel("Download is Done");
+    
+        }
+
+        @Override
+        void progressCallback(Object... params) {
+        
+            //This method update your UI Thread during the execution of background thread
+            
+            double progress = (double)params[0]
+            this.controller.updateProgress(progress);
         }
     }
 
-    @Override
-    void onPostExecute() {
-
-        //This method runs on UI Thread after background task has done
-        this.controller.updateProgressLabel("Download is Done");
-
-    }
-
-    @Override
-    void progressCallback(Object... params) {
+    //To call this class you just need to instatiate that doing 
     
-        //This method update your UI Thread during the execution of background thread
-        
-        double progress = (double)params[0]
-        this.controller.updateProgress(progress);
-    }
-    }
-
-//To call this class you just need to instatiate that doing 
-
-Example testing = Example(myController);
-testing.execute();
+    Example testing = Example(myController);
+    testing.execute();
