@@ -42,7 +42,7 @@ Example of use:
         void onPreExecute() {
         
             //This method runs on UI Thread before background task has started
-            this.updateProgressLabel("Starting Download")
+            this.controller.updateProgressLabel("Starting Download")
         }
 
         @Override
