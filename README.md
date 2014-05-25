@@ -1,7 +1,7 @@
 AsyncTask
 =========
 
-This project was created to simplify how to handle Thread tasks in Javafx, and it is based on the same idea of AsyncTask from Android.
+This class was created to simplify how to handle Thread tasks in Javafx, and it is based on the same idea of AsyncTask from Android.
 
 AsyncTask enables proper and easy use of the UI thread. This class allows to perform background operations and publish results on the UI thread without having to manipulate threads.
 
