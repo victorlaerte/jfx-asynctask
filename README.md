@@ -8,6 +8,7 @@ AsyncTask enables proper and easy use of the UI thread. This class allows to per
 An asynchronous task is defined by a computation that runs on a background thread and whose result is published on the UI thread. An asynchronous task is defined by extending the class, and 4 steps, called onPreExecute, doInBackground, progressCallback and onPostExecute.
 
 Optionally you have the method setDaemon to set your threads daemon, which means that if your javafx application has been closed it can still running or not. setDamon(boolean) can only be called before the thread has been started. By default the thread is set to daemon.
+
 =========
 
 onPreExecute - is used to run some rotine before the background task has started
