@@ -8,7 +8,7 @@ import javafx.application.Platform;
  */
 public abstract class AsyncTask<T1,T2,T3> {
 
-    private boolean daemon = false;
+    private boolean daemon = true;
 
     public abstract void onPreExecute();
 
