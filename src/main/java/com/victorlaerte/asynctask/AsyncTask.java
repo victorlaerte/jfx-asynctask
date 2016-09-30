@@ -12,7 +12,7 @@ public abstract class AsyncTask {
 
 	public abstract void onPreExecute();
 
-	public abstract void doInBackground();
+	public abstract void doInBackground() throws Exception;
 
 	public abstract void onPostExecute();
 
@@ -34,17 +34,26 @@ public abstract class AsyncTask {
 
 		@Override
 		public void run() {
+			try {
+				doInBackground();
 
-			doInBackground();
+				Platform.runLater(new Runnable() {
 
-			Platform.runLater(new Runnable() {
+					@Override
+					public void run() {
+						onPostExecute();
+					}
+				});
+			} catch(final Exception e) {
+				Platform.runLater(new Runnable() {
 
-				@Override
-				public void run() {
-
-					onPostExecute();
-				}
-			});
+					@Override
+					public void run() {
+						onFail(e);
+					}
+				});
+				
+			}
 		}
 	});
 
