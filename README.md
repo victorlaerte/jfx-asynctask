@@ -30,7 +30,7 @@ execute - called to initiate all process
 
 interrupt - is called to interrupt your thread process
 
-Example of use:
+Example of use [version 1.0](https://github.com/victorlaerte/javafx-asynctask/releases/tag/1.0):
 =========
 
     public class Example extends AsyncTask {
