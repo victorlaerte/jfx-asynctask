@@ -1,3 +1,5 @@
+<img src="https://travis-ci.org/victorlaerte/javafx-asynctask.svg?branch=master" alt="build:">
+
 AsyncTask
 =========
 
