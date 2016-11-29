@@ -1,4 +1,4 @@
-<img src="https://travis-ci.org/victorlaerte/javafx-asynctask.svg?branch=master" alt="build:">
+[![Travis-CI](https://travis-ci.org/victorlaerte/javafx-asynctask.svg?branch=master)](https://github.com/victorlaerte/javafx-asynctask)
 [![Open Source Love](https://badges.frapsoft.com/os/v1/open-source.svg?v=103)](https://github.com/ellerbrock/open-source-badge/)
 
 AsyncTask
