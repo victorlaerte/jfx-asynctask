@@ -6,70 +6,67 @@ import javafx.application.Platform;
  *
  * @author Victor Oliveira
  */
-public abstract class AsyncTask {
+public abstract class AsyncTask<T1,T2,T3> {
 
-	private boolean daemon = true;
+    private boolean daemon = true;
 
-	public abstract void onPreExecute();
+    public abstract void onPreExecute();
 
-	public abstract void doInBackground();
+    public abstract T3 doInBackground(T1... params);
 
-	public abstract void onPostExecute();
+    public abstract void onPostExecute(T3 params);
 
-	public abstract void progressCallback(Object... params);
+    public abstract void progressCallback(T2... params);
 
-	public void publishProgress(final Object... params) {
+    public void publishProgress(final T2... params) {
+        Platform.runLater(new Runnable() {
+            @Override
+            public void run() {
+                progressCallback(params);
+            }
+        });
+    }
 
-		Platform.runLater(new Runnable() {
+    private final Thread backGroundThread = new Thread(new Runnable() {
+        @Override
+        public void run() {
 
-			@Override
-			public void run() {
+            final T3 param = doInBackground((T1[]) params);
 
-				progressCallback(params);
-			}
-		});
-	}
+            Platform.runLater(new Runnable() {
+                @Override
+                public void run() {
+                    onPostExecute(param);
+                }
+            });
+        }
+    });
 
-	private final Thread backGroundThread = new Thread(new Runnable() {
+    Object params;
 
-		@Override
-		public void run() {
+    public void execute(final T1... params) {
+        this.params = params;
+        Platform.runLater(new Runnable() {
+            @Override
+            public void run() {
 
-			doInBackground();
+                onPreExecute();
 
-			Platform.runLater(new Runnable() {
+                backGroundThread.setDaemon(daemon);
+                backGroundThread.start();
+            }
+        });
+    }
 
-				@Override
-				public void run() {
+    public void setDaemon(boolean daemon) {
+        this.daemon = daemon;
+    }
 
-					onPostExecute();
-				}
-			});
-		}
-	});
+    public void interrupt(){
+        this.backGroundThread.interrupt();
+    }
 
-	public void execute() {
-
-		Platform.runLater(new Runnable() {
-
-			@Override
-			public void run() {
-
-				onPreExecute();
-
-				backGroundThread.setDaemon(daemon);
-				backGroundThread.start();
-			}
-		});
-	}
-
-	public void setDaemon(boolean daemon) {
-
-		this.daemon = daemon;
-	}
-
-	public void interrupt() {
-
-		this.backGroundThread.interrupt();
-	}
+    public boolean isInterrupted() {
+        return this.backGroundThread.isInterrupted();
+    }
 }
