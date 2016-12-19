@@ -14,12 +14,43 @@
       <version>4.11</version>
       <scope>test</scope>
     </dependency>
-    <dependency>
-      <groupId>javafx</groupId>
-      <artifactId>jfxrt</artifactId>
-      <version>${java.version}</version>
-      <scope>system</scope>
-      <systemPath>${java.home}/lib/ext/jfxrt.jar</systemPath>
-    </dependency>
   </dependencies>
+      <profiles>
+        <profile>
+            <id>surefire-java7</id>
+            <activation>
+                <property>
+                    <name>jdk.version</name>
+                    <value>1.7</value>
+                </property>
+            </activation>
+            <dependencies>
+              <dependency>
+                <groupId>javafx</groupId>
+                <artifactId>jfxrt</artifactId>
+                <version>${java.version}</version>
+                <scope>system</scope>
+                <systemPath>${java.home}/lib/jfxrt.jar</systemPath>
+              </dependency>
+            </dependencies>
+        </profile>
+        <profile>
+            <id>surefire-java8</id>
+            <activation>
+                <property>
+                    <name>jdk.version</name>
+                    <value>1.8</value>
+                </property>
+            </activation>
+            <dependencies>
+              <dependency>
+                <groupId>javafx</groupId>
+                <artifactId>jfxrt</artifactId>
+                <version>${java.version}</version>
+                <scope>system</scope>
+                <systemPath>${java.home}/lib/ext/jfxrt.jar</systemPath>
+              </dependency>
+            </dependencies>
+        </profile>
+      </profiles>
 </project>
