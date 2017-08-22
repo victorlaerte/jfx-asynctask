@@ -15,23 +15,21 @@ Optionally you have the method setDaemon to set your threads daemon, which means
 Methods
 =========
 
-onPreExecute - is used to run some rotine before the background task has started
+```onPreExecute``` - is used to run some rotine before the background task has started
 
-doInBackground - is used to perform background tasks
+```doInBackground``` - is used to perform background tasks
 
-onPostExecute - is used to run some finally rotine after background task has done
+```onPostExecute``` - is used to run some finally rotine after background task has done
 
-progressCallback - it will be called every time you call publishProgress to update your UI Thread as you want
+```progressCallback``` - it will be called every time you call publishProgress to update your UI Thread as you want
 
-=========
+```publishProgress``` - is used to call your progressCallback and update your UI component
 
-publishProgress - is used to call your progressCallback and update your UI component
+```setDaemon``` - is used to set your thread daemon
 
-setDaemon - is used to set your thread daemon
+```execute``` - called to initiate all process
 
-execute - called to initiate all process
-
-interrupt - is called to interrupt your thread process
+```interrupt``` - is called to interrupt your thread process
 
 Example of usage: 
 =========
