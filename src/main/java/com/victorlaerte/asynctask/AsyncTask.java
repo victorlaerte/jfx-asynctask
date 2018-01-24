@@ -72,4 +72,14 @@ public abstract class AsyncTask {
 
 		this.backGroundThread.interrupt();
 	}
+	
+	public final boolean isInterrupted() {
+
+		return this.backGroundThread.isInterrupted();
+	}
+
+	public final boolean isAlive() {
+
+		return this.backGroundThread.isAlive();
+	}
 }
