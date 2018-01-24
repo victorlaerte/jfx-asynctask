@@ -62,11 +62,11 @@ public abstract class AsyncTask<T1,T2,T3> {
         this.daemon = daemon;
     }
 
-    public void interrupt(){
-        this.backGroundThread.interrupt();
+    public final boolean isInterrupted() {
+        return this.backGroundThread.isInterrupted();
     }
 
-    public boolean isInterrupted() {
-        return this.backGroundThread.isInterrupted();
+    public final boolean isAlive() {
+        return this.backGroundThread.isAlive();
     }
 }
