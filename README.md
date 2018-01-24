@@ -88,3 +88,5 @@ Example of usage:
     
     Example testing = new Example(myController);
     testing.execute();
+
+[**Sample here**](https://github.com/victorlaerte/javafx-asynctask/tree/master/src/sample)
