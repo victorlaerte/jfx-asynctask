@@ -3,70 +3,56 @@ package com.victorlaerte.asynctask;
 import javafx.application.Platform;
 
 /**
- *
  * @author Victor Oliveira
  */
-public abstract class AsyncTask<T1,T2,T3> {
+public abstract class AsyncTask<T1, T2, T3> {
 
-    private boolean daemon = true;
+	private boolean daemon = true;
 
-    public abstract void onPreExecute();
+	private T1[] params;
 
-    public abstract T3 doInBackground(T1... params);
+	public abstract void onPreExecute();
 
-    public abstract void onPostExecute(T3 params);
+	public abstract T3 doInBackground(T1... params);
 
-    public abstract void progressCallback(T2... params);
+	public abstract void onPostExecute(T3 params);
 
-    public void publishProgress(final T2... params) {
-        Platform.runLater(new Runnable() {
-            @Override
-            public void run() {
-                progressCallback(params);
-            }
-        });
-    }
+	public abstract void progressCallback(T2... params);
 
-    public final Thread backGroundThread = new Thread(new Runnable() {
-        @Override
-        public void run() {
+	public void publishProgress(final T2... progressParams) {
+		Platform.runLater(() -> progressCallback(progressParams));
+	}
 
-            final T3 param = doInBackground((T1[]) params);
+	public final Thread backGroundThread = new Thread(new Runnable() {
+		@Override
+		public void run() {
 
-            Platform.runLater(new Runnable() {
-                @Override
-                public void run() {
-                    onPostExecute(param);
-                }
-            });
-        }
-    });
+			final T3 param = doInBackground(params);
 
-    Object params;
+			Platform.runLater(() -> onPostExecute(param));
+		}
+	});
 
-    public void execute(final T1... params) {
-        this.params = params;
-        Platform.runLater(new Runnable() {
-            @Override
-            public void run() {
+	public void execute(final T1... params) {
+		this.params = params;
+		Platform.runLater(() -> {
 
-                onPreExecute();
+			onPreExecute();
 
-                backGroundThread.setDaemon(daemon);
-                backGroundThread.start();
-            }
-        });
-    }
+			backGroundThread.setDaemon(daemon);
+			backGroundThread.start();
+		});
+	}
 
-    public void setDaemon(boolean daemon) {
-        this.daemon = daemon;
-    }
+	public void setDaemon(boolean daemon) {
+		this.daemon = daemon;
+	}
 
-    public final boolean isInterrupted() {
-        return this.backGroundThread.isInterrupted();
-    }
+	public final boolean isInterrupted() {
+		return this.backGroundThread.isInterrupted();
+	}
 
-    public final boolean isAlive() {
-        return this.backGroundThread.isAlive();
-    }
+	public final boolean isAlive() {
+		return this.backGroundThread.isAlive();
+	}
 }

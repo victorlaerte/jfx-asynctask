@@ -5,7 +5,7 @@ import com.victorlaerte.asynctask.AsyncTask;
 /**
  * @author Victor Oliveira
  */
-class TestAsyncTask extends AsyncTask<String, Integer, Boolean> {
+class MyAsyncTask extends AsyncTask<String, Integer, Boolean> {
 
 	@Override
 	public void onPreExecute() {
@@ -47,5 +47,4 @@ class TestAsyncTask extends AsyncTask<String, Integer, Boolean> {
 	public void progressCallback(Integer... params) {
 		System.out.println("Progress " + params[0]);
 	}
-
 }
