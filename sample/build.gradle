@@ -1,0 +1,26 @@
+group 'com.victorlaerte'
+version '2.0'
+
+apply plugin: 'java'
+
+sourceCompatibility = 1.8
+
+buildscript {
+    dependencies {
+        classpath group: 'de.dynamicfiles.projects.gradle.plugins', name: 'javafx-gradle-plugin', version: '8.8.2'
+    }
+    repositories {
+        mavenLocal()
+        mavenCentral()
+    }
+}
+dependencies {
+    compile project(':asynctask')
+}
+
+repositories {
+    mavenLocal()
+    mavenCentral()
+}
+
+apply plugin: 'javafx-gradle-plugin'

@@ -1,9 +1,9 @@
-language: java	
-jdk:	
-  - oraclejdk8	
-sudo: false	
-addons:	
-  apt:	
-    packages:	
-      - oracle-java8-installer	
-script: mvn clean install -DskipTests
+language: java
+jdk:
+  - oraclejdk8
+sudo: false
+addons:
+  apt:
+    packages:
+      - oracle-java8-installer
+script: ./gradlew build
