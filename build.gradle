@@ -1,10 +1,3 @@
-group 'com.victorlaerte'
-version '2.0'
-
-apply plugin: 'java'
-
-sourceCompatibility = 1.8
-
 buildscript {
     dependencies {
         classpath group: 'de.dynamicfiles.projects.gradle.plugins', name: 'javafx-gradle-plugin', version: '8.8.2'
@@ -15,9 +8,142 @@ buildscript {
     }
 }
 
+plugins {
+    id "com.jfrog.bintray" version "1.7.3"
+    id 'io.codearte.nexus-staging' version '0.11.0'
+}
+
+apply plugin: 'maven'
+apply plugin: 'java'
+apply plugin: 'maven-publish'
+apply plugin: 'signing'
+
+sourceCompatibility = 1.8
+
+def release = true
+
 repositories {
     mavenLocal()
     mavenCentral()
 }
 
-apply plugin: 'javafx-gradle-plugin'
+task javadocJar(type: Jar, dependsOn: javadoc) {
+    classifier = 'javadoc'
+    from javadoc.destinationDir
+}
+
+task sourceJar(type: Jar) {
+    classifier "sources"
+    from sourceSets.main.allJava
+}
+
+tasks.withType(Javadoc) {
+    options.addStringOption('Xdoclint:none', '-quiet')
+}
+
+model {
+    tasks.publishJarPublicationToSonatypeRepository {
+        if (release)
+            dependsOn(project.tasks.signArchives)
+        enabled = release
+    }
+}
+artifacts {
+    archives jar
+    archives sourceJar
+    archives javadocJar
+}
+
+signing {
+    sign configurations.archives
+}
+
+publishing {
+    publications {
+        jar(MavenPublication) {
+            customizePom(pom, rootProject)
+            from components.java
+
+            artifact sourceJar
+            artifact javadocJar
+
+            if (release) {
+                // sign the pom
+                pom.withXml {
+                    def pomFile = file("${project.buildDir}/generated-pom.xml")
+                    writeTo(pomFile)
+                    def pomAscFile = signing.sign(pomFile).signatureFiles[0]
+                    artifact(pomAscFile) {
+                        classifier = null
+                        extension = 'pom.asc'
+                    }
+                    pomFile.delete()
+                }
+
+                // sign the artifacts
+                project.tasks.signArchives.signatureFiles.each {
+                    artifact(it) {
+                        def matcher = it.file =~ /-(sources|javadoc)\.jar\.asc$/
+                        if (matcher.find()) {
+                            classifier = matcher.group(1)
+                        } else {
+                            classifier = null
+                        }
+                        extension = 'jar.asc'
+                    }
+                }
+            }
+        }
+    }
+    repositories {
+        maven {
+            name 'sonatype'
+            url "https://oss.sonatype.org/service/local/staging/deploy/maven2"
+            if (release) {
+                credentials {
+                    username sonatypeUsername
+                    password sonatypePassword
+                }
+            }
+        }
+    }
+}
+
+def customizePom(pom, gradleProject) {
+    pom.withXml {
+        def root = asNode()
+
+        // eliminate test-scoped dependencies (no need in maven central POMs)
+        root.dependencies.removeAll { dep ->
+            dep.scope == "test"
+        }
+
+        // add all items necessary for maven central publication
+        root.children().last() + {
+            resolveStrategy = Closure.DELEGATE_FIRST
+
+            name 'JavaFx AsyncTask'
+            description 'JavaFx AsyncTask'
+            url 'https://github.com/victorlaerte/javafx-asynctask'
+            organization {
+                name 'Victor Oliveira'
+                url 'http://victorlaerte.com'
+            }
+            licenses {
+                license {
+                    name 'The New BSD License'
+                }
+            }
+            scm {
+                url 'https://github.com/victorlaerte/javafx-asynctask'
+            }
+            developers {
+                developer {
+                    id 'victor'
+                    name 'Victor Oliveira'
+                    email 'victorlaertedoliveira@gmail.com'
+                }
+            }
+        }
+    }
+}
