@@ -1,7 +1,7 @@
 [![Travis-CI](https://travis-ci.org/victorlaerte/javafx-asynctask.svg?branch=master)](https://github.com/victorlaerte/javafx-asynctask)
 [![Open Source Love](https://badges.frapsoft.com/os/v1/open-source.svg?v=103)](https://github.com/ellerbrock/open-source-badge/)
 
-AsyncTask
+JavaFx AsyncTask
 =========
 
 This class was created to simplify how to handle Thread tasks in Javafx, and it is based on the same idea of AsyncTask from Android.
@@ -11,6 +11,22 @@ AsyncTask enables proper and easy use of the UI thread. This class allows to per
 An asynchronous task is defined by a computation that runs on a background thread and whose result is published on the UI thread. An asynchronous task is defined by extending the class, and 4 steps, called onPreExecute, doInBackground, progressCallback and onPostExecute.
 
 Optionally you have the method setDaemon to set your threads daemon, which means that if your javafx application has been closed it can still running or not. setDamon(boolean) can only be called before the thread has been started. By default the thread is set to daemon.
+
+Use
+=========
+**Maven**
+```
+<dependency>
+    <groupId>com.victorlaerte</groupId>
+    <artifactId>jfx-asynctask</artifactId>
+    <version>1.0.1</version>
+    <type>pom</type>
+</dependency>
+```
+**Gradle**
+```
+compile group: 'com.victorlaerte', name: 'jfx-asynctask', version: '1.0.1', ext: 'pom'
+```
 
 Methods
 =========
