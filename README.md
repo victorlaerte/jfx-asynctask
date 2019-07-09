@@ -20,7 +20,6 @@ Use
     <groupId>com.victorlaerte</groupId>
     <artifactId>jfx-asynctask</artifactId>
     <version>1.0.1</version>
-    <type>pom</type>
 </dependency>
 ```
 **Gradle**
