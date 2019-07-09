@@ -24,7 +24,7 @@ Use
 ```
 **Gradle**
 ```
-compile group: 'com.victorlaerte', name: 'jfx-asynctask', version: '1.0.1', ext: 'pom'
+compile group: 'com.victorlaerte', name: 'jfx-asynctask', version: '1.0.1'
 ```
 
 Methods
